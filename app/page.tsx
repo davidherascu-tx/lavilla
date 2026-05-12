@@ -3,22 +3,31 @@
 import { useState, useEffect, useRef } from "react";
 
 const sliderImages = [
-  "https://images.unsplash.com/photo-1519225421980-715cb0215aed?q=80&w=2070&auto=format&fit=crop", 
-  "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=2075&auto=format&fit=crop", 
-  "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?q=80&w=2070&auto=format&fit=crop"  
+  "/hero-1.webp",
+  "/hero-2.webp",
+  "/hero-3.webp",
+  "/hero-4.webp"
 ];
 
 const panelImages = {
-  left: "https://images.unsplash.com/photo-1512918728675-ed5a9ecdebfd?q=80&w=800&auto=format&fit=crop", 
-  center: "https://images.unsplash.com/photo-1519225421980-715cb0215aed?q=80&w=800&auto=format&fit=crop", 
-  right: "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?q=80&w=800&auto=format&fit=crop"  
+  left: "/gallery-left.webp",
+  center: "/gallery-center.webp",
+  right: "/gallery-right.webp"
 };
 
 const weddingImages = [
-  "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=2069&auto=format&fit=crop", 
-  "https://images.unsplash.com/photo-1530103862676-de889ca20479?q=80&w=2070&auto=format&fit=crop", 
-  "https://images.unsplash.com/photo-1520854221256-17451cc331bf?q=80&w=2070&auto=format&fit=crop", 
-  "https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?q=80&w=2070&auto=format&fit=crop"  
+  "/wedding-1.webp",
+  "/wedding-2.webp",
+  "/wedding-3.webp",
+  "/wedding-4.webp"
+];
+
+const villaImages = [
+  "/villa-1.webp",
+  "/villa-2.webp",
+  "/villa-3.webp",
+  "/villa-4.webp",
+  "/villa-5.webp"
 ];
 
 export default function Home() {
@@ -30,13 +39,21 @@ export default function Home() {
   const [counts, setCounts] = useState({ rooms: 0, weddings: 0, dining: 0 });
   const [hasCounted, setHasCounted] = useState(false);
   const [currentWeddingImage, setCurrentWeddingImage] = useState(0);
+  const [currentVillaImage, setCurrentVillaImage] = useState(0);
   const counterRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const slideInterval = setInterval(() => {
       setCurrentImage((prev) => (prev + 1) % sliderImages.length);
-    }, 4500); 
+    }, 4500);
     return () => clearInterval(slideInterval);
+  }, []);
+
+  useEffect(() => {
+    const villaInterval = setInterval(() => {
+      setCurrentVillaImage((prev) => (prev + 1) % villaImages.length);
+    }, 5000);
+    return () => clearInterval(villaInterval);
   }, []);
 
   useEffect(() => {
@@ -67,7 +84,7 @@ export default function Home() {
         if (entry.isIntersecting && !hasCounted) {
           setHasCounted(true);
           let start = 0;
-          const duration = 2000; 
+          const duration = 2000;
           const steps = 60;
           const timer = setInterval(() => {
             start++;
@@ -90,7 +107,7 @@ export default function Home() {
 
   return (
     <div className="flex flex-col flex-1 bg-stone-50">
-      
+
       {/* Hero Slider */}
       <div className="w-full px-4 sm:px-8 lg:px-12 pt-8 pb-8">
         <section className="relative h-[85vh] min-h-[600px] w-full flex items-center justify-center overflow-hidden rounded-[2rem] shadow-2xl">
@@ -148,11 +165,85 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Luxury Villa Section */}
+      <section id="villa" className="w-full px-4 sm:px-8 lg:px-12 py-24">
+        <div className="max-w-[1400px] mx-auto">
+          <div className="text-center mb-12">
+            <span className="text-teal-700 tracking-[0.4em] uppercase font-bold text-sm mb-4 block">Stay With Us</span>
+            <h3 className="text-5xl md:text-7xl lg:text-8xl font-serif font-black text-stone-900 leading-none">The Luxury Villa</h3>
+          </div>
+
+          <div className="relative h-[500px] md:h-[650px] rounded-[3rem] overflow-hidden shadow-2xl group">
+            {villaImages.map((img, i) => (
+              <img
+                key={i}
+                src={img}
+                alt={`The villa ${i + 1}`}
+                className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out ${i === currentVillaImage ? "opacity-100 z-10" : "opacity-0 z-0"}`}
+              />
+            ))}
+            <button
+              onClick={() => setCurrentVillaImage((p) => (p - 1 + villaImages.length) % villaImages.length)}
+              aria-label="Previous image"
+              className="absolute left-6 top-1/2 -translate-y-1/2 z-20 p-4 bg-white/10 backdrop-blur-md rounded-full text-white hover:bg-white/30 transition-all"
+            >
+              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
+            </button>
+            <button
+              onClick={() => setCurrentVillaImage((p) => (p + 1) % villaImages.length)}
+              aria-label="Next image"
+              className="absolute right-6 top-1/2 -translate-y-1/2 z-20 p-4 bg-white/10 backdrop-blur-md rounded-full text-white hover:bg-white/30 transition-all"
+            >
+              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+            </button>
+            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex gap-3">
+              {villaImages.map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => setCurrentVillaImage(i)}
+                  aria-label={`Show image ${i + 1}`}
+                  className={`h-2 rounded-full transition-all duration-500 ${i === currentVillaImage ? "w-10 bg-white" : "w-2 bg-white/50 hover:bg-white/80"}`}
+                />
+              ))}
+            </div>
+          </div>
+
+          <div className="relative z-30 -mt-24 md:-mt-32 mx-4 md:mx-12 lg:mx-24 bg-white rounded-[2rem] shadow-2xl p-10 md:p-16">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 mb-12">
+              <div className="border-t-2 border-stone-900 pt-4">
+                <span className="text-xs tracking-[0.3em] uppercase text-stone-500 font-bold block mb-2">Bedrooms</span>
+                <span className="text-3xl md:text-4xl font-serif font-black text-stone-900">3</span>
+              </div>
+              <div className="border-t-2 border-stone-900 pt-4">
+                <span className="text-xs tracking-[0.3em] uppercase text-stone-500 font-bold block mb-2">View</span>
+                <span className="text-3xl md:text-4xl font-serif font-black text-stone-900">Ocean</span>
+              </div>
+              <div className="border-t-2 border-stone-900 pt-4">
+                <span className="text-xs tracking-[0.3em] uppercase text-stone-500 font-bold block mb-2">Pool</span>
+                <span className="text-3xl md:text-4xl font-serif font-black text-stone-900">Private</span>
+              </div>
+            </div>
+
+            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
+              <p className="text-stone-600 font-light text-lg leading-relaxed max-w-2xl">
+                Reserve the entire estate for an unforgettable private retreat — every detail looked after by our dedicated team.
+              </p>
+              <a
+                href="/villa"
+                className="shrink-0 px-12 py-4 text-xs tracking-widest uppercase font-bold text-white bg-stone-900 hover:bg-stone-800 transition-all"
+              >
+                Book the Villa
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Wedding Explore Section */}
       <section className="w-full px-4 sm:px-8 lg:px-12 py-24">
         <div className="max-w-[1400px] mx-auto bg-white rounded-[3rem] shadow-xl overflow-hidden flex flex-col lg:flex-row min-h-[600px]">
           <div className="w-full lg:w-1/2 p-12 md:p-20 flex flex-col justify-center">
-            <span className="text-[#00FFFC] tracking-[0.4em] uppercase font-bold text-sm mb-6">Explore</span>
+            <span className="text-teal-700 tracking-[0.4em] uppercase font-bold text-sm mb-6">Explore</span>
             <h3 className="text-5xl md:text-6xl lg:text-7xl font-serif font-black text-stone-900 mb-8 leading-tight">The dream wedding</h3>
             <p className="text-stone-600 font-light mb-12 text-lg leading-relaxed max-w-xl">Celebrate your love story in a breathtaking setting. Our dedicated team will ensure every detail of your special day is executed flawlessly.</p>
             <a href="/wedding" className="inline-block w-fit px-12 py-4 text-xs tracking-widest uppercase font-bold text-white bg-stone-900 hover:bg-stone-800 transition-all">Read More</a>
@@ -171,19 +262,43 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Airbnb Parallax */}
-      <section className="relative w-full py-36 bg-fixed bg-center bg-cover" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?q=80&w=2070&auto=format&fit=crop')" }}>
-        <div className="absolute inset-0 bg-stone-900/70 z-10"></div>
-        <div className="relative z-20 w-full max-w-[1200px] mx-auto px-12 grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
-          <div className="flex flex-col items-center md:items-start text-center md:text-left">
-            <h2 className="text-2xl md:text-[36px] lg:text-[42px] font-serif text-white font-light mb-10 tracking-wide">For overnight stays, visit us on</h2>
-            <a href="https://airbnb.com" target="_blank" className="px-12 py-5 bg-white text-stone-900 font-bold uppercase tracking-widest hover:bg-stone-200 transition-all shadow-2xl">Book Now</a>
-          </div>
-          <div className="flex justify-center md:justify-end">
-            <img src="https://zofiaconstruction.com/wp-content/uploads/2021/04/airbnb-logo-png-transparent-white.png" alt="Airbnb" className="w-48 sm:w-64 md:w-80 object-contain brightness-0 invert opacity-90" />
-          </div>
-        </div>
-      </section>
+
+{/* Airbnb Parallax */}
+<section
+  className="relative w-full h-[650px] flex items-center bg-fixed bg-center bg-cover"
+  style={{ backgroundImage: "url('/airbnb-bg.webp')" }}
+>
+  <div className="absolute inset-0 bg-stone-900/50 z-10"></div>
+  <div className="relative z-20 w-full max-w-[1400px] mx-auto px-12 grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+    <div className="flex flex-col items-center md:items-start text-center md:text-left">
+      <h2 className="text-xl sm:text-2xl md:text-[30px] lg:text-[36px] font-serif text-white font-light mb-10 tracking-wide whitespace-nowrap">
+        For overnight stays, visit us on
+      </h2>
+      <a
+        href="https://airbnb.com"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="px-12 py-5 bg-white text-stone-900 font-bold uppercase tracking-widest hover:bg-stone-200 transition-all shadow-2xl"
+      >
+        Book Now
+      </a>
+    </div>
+    <div className="flex flex-row justify-center md:justify-end items-center gap-4">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 448 512"
+        width="90"
+        height="103"
+        fill="#ffffff"
+        aria-label="Airbnb"
+        style={{ display: "block" }}
+      >
+        <path d="M224 373.12c-25.24-31.67-40.08-59.43-45-83.18-22.55-88 112.61-88 90.06 0-5.45 24.25-20.29 52-45 83.18zm138.15 73.23c-42.06 18.31-83.67-10.88-119.3-50.47 103.9-130.07 46.11-200-18.85-200-54.92 0-85.16 46.51-73.28 100.5 6.93 29.19 25.23 62.39 54.43 99.5-32.53 36.05-60.55 52.69-85.15 54.92-50 7.43-89.11-41.06-71.3-91.09 15.1-39.16 111.72-231.18 115.87-241.56 15.75-30.07 25.56-57.4 59.38-57.4 32.34 0 43.4 25.94 60.37 59.87 36 70.62 89.35 177.48 114.84 239.09 13.17 33.07-1.37 71.29-37.01 86.64zm47-136.12C280.27 35.93 273.13 32 224 32c-45.52 0-64.87 31.67-84.66 72.79C33.18 317.1 22.89 347.19 22 349.81-3.22 419.14 48.74 480 111.63 480c21.71 0 60.61-6.06 112.37-62.4 58.68 63.78 101.26 62.4 112.37 62.4 62.89.05 114.85-60.86 89.61-130.19.02-3.89-16.82-38.9-16.82-39.58z" />
+      </svg>
+      <span className="text-white font-bold text-5xl sm:text-6xl md:text-7xl tracking-tight">airbnb</span>
+    </div>
+  </div>
+</section>
     </div>
   );
 }
