@@ -1,30 +1,30 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 const sliderPanels = [
-  { src: "/villa-1.webp", label: "Living" },
-  { src: "/villa-2.webp", label: "Pool" },
-  { src: "/villa-3.webp", label: "Kitchen" },
+  { src: "/villa_living.webp", label: "Living" },
+  { src: "/villa_pool.webp", label: "Pool" },
+  { src: "/villa_kitchen.webp", label: "Kitchen" },
 ];
 
 const rooms = [
   {
-    image: "/villa-4.webp",
+    image: "/room_1.webp",
     number: "Room 1",
     bed: "1 King Size Bed, Smart TV",
     description:
       "The room was bathed in soft, golden light streaming through lace curtains, casting gentle shadows on tile floor and illuminating the array of antique furniture.",
   },
   {
-    image: "/villa-5.webp",
+    image: "/room_2.webp",
     number: "Room 2",
     bed: "1 King Size Bed, Smart TV",
     description:
       "The room was bathed in soft, golden light streaming through lace curtains, casting gentle shadows on tile floor and illuminating the array of antique furniture.",
   },
   {
-    image: "/villa-1.webp",
+    image: "/room_3.webp",
     number: "Room 3",
     bed: "1 Full Size Bed, Smart TV",
     description:
@@ -43,6 +43,14 @@ export default function VillaPage() {
   const [isDeleting, setIsDeleting] = useState(false);
   const [phraseIndex, setPhraseIndex] = useState(0);
   const [typingSpeed, setTypingSpeed] = useState(80);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [isVideoPlaying, setIsVideoPlaying] = useState(false);
+
+  const handlePlayVideo = () => {
+    const video = videoRef.current;
+    if (!video) return;
+    video.play();
+  };
 
   useEffect(() => {
     const fullText = phrases[phraseIndex];
@@ -130,15 +138,25 @@ export default function VillaPage() {
           </div>
           <div className="relative rounded-[1.5rem] sm:rounded-[3rem] overflow-hidden aspect-video shadow-2xl bg-stone-900">
             <video
+              ref={videoRef}
               className="w-full h-full object-cover"
+              src="/lavilla.mp4"
               poster="/villa-2.webp"
-              autoPlay
-              muted
-              loop
+              controls={isVideoPlaying}
               playsInline
+              onPlay={() => setIsVideoPlaying(true)}
+              onPause={() => setIsVideoPlaying(false)}
+              onEnded={() => setIsVideoPlaying(false)}
             />
-            <div className="absolute inset-0 flex items-center justify-center bg-stone-900/30 z-10">
-              <div className="w-20 h-20 sm:w-28 sm:h-28 rounded-full bg-white/15 backdrop-blur-md flex items-center justify-center border border-white/40 hover:bg-white/30 transition-all cursor-pointer">
+            <button
+              type="button"
+              onClick={handlePlayVideo}
+              aria-label="Play video"
+              className={`absolute inset-0 flex items-center justify-center bg-stone-900/30 z-10 transition-opacity duration-500 ${
+                isVideoPlaying ? "opacity-0 pointer-events-none" : "opacity-100"
+              }`}
+            >
+              <span className="w-20 h-20 sm:w-28 sm:h-28 rounded-full bg-white/15 backdrop-blur-md flex items-center justify-center border border-white/40 hover:bg-white/30 transition-all">
                 <svg
                   className="w-8 h-8 sm:w-12 sm:h-12 text-white ml-1 sm:ml-2"
                   fill="currentColor"
@@ -146,8 +164,8 @@ export default function VillaPage() {
                 >
                   <path d="M8 5v14l11-7z" />
                 </svg>
-              </div>
-            </div>
+              </span>
+            </button>
           </div>
         </div>
       </section>
@@ -369,7 +387,7 @@ export default function VillaPage() {
       {/* Parallax Section */}
       <section
         className="relative w-full min-h-[500px] md:h-[580px] flex items-center justify-center py-20 md:py-0 bg-scroll md:bg-fixed bg-center bg-cover overflow-hidden"
-        style={{ backgroundImage: "url('/hero-1.webp')" }}
+        style={{ backgroundImage: "url('/villa_parallax.webp')" }}
       >
         <div className="absolute inset-0 bg-stone-900/65 z-10" />
         <div className="relative z-20 text-center px-4 w-full mx-auto">

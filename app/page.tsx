@@ -84,7 +84,7 @@ export default function Home() {
         if (entry.isIntersecting && !hasCounted) {
           setHasCounted(true);
           let start = 0;
-          const duration = 2000;
+          const duration = 2000; 
           const steps = 60;
           const timer = setInterval(() => {
             start++;
@@ -107,7 +107,7 @@ export default function Home() {
 
   return (
     <div className="flex flex-col flex-1 bg-stone-50">
-
+      
       {/* Hero Slider */}
       <div className="w-full px-2 sm:px-4 md:px-8 lg:px-12 pt-4 sm:pt-8 pb-4 sm:pb-8">
         <section className="relative h-[80vh] sm:h-[85vh] min-h-[520px] sm:min-h-[600px] w-full flex items-center justify-center overflow-hidden rounded-[1.25rem] sm:rounded-[2rem] shadow-2xl">
@@ -124,11 +124,11 @@ export default function Home() {
             </h2>
             <p className="text-xs sm:text-sm text-stone-200 max-w-3xl mx-auto font-light">Located in the beautiful town of Boca de Tomatlan, 25 minutes south of Puerto Vallarta.</p>
             <div className="mt-10 sm:mt-14 flex flex-col sm:flex-row justify-center items-center gap-4 sm:gap-6">
-              <a href="#villa" className="group relative w-full sm:w-auto px-10 sm:px-12 py-4 text-xs tracking-widest uppercase font-semibold text-white border border-white/50 bg-white/5 backdrop-blur-sm overflow-hidden transition-all duration-500 hover:border-white">
+              <a href="/villa" className="group relative w-full sm:w-auto px-10 sm:px-12 py-4 text-xs tracking-widest uppercase font-semibold text-white border border-white/50 bg-white/5 backdrop-blur-sm overflow-hidden transition-all duration-500 hover:border-white">
                 <div className="absolute inset-0 bg-white translate-y-[100%] group-hover:translate-y-0 transition-transform duration-500"></div>
                 <span className="relative z-10 group-hover:text-stone-900">The Villa</span>
               </a>
-              <a href="#weddings" className="group relative w-full sm:w-auto px-10 sm:px-12 py-4 text-xs tracking-widest uppercase font-semibold text-white border border-white/50 bg-white/5 backdrop-blur-sm overflow-hidden transition-all duration-500 hover:border-white">
+              <a href="/wedding" className="group relative w-full sm:w-auto px-10 sm:px-12 py-4 text-xs tracking-widest uppercase font-semibold text-white border border-white/50 bg-white/5 backdrop-blur-sm overflow-hidden transition-all duration-500 hover:border-white">
                 <div className="absolute inset-0 bg-white translate-y-[100%] group-hover:translate-y-0 transition-transform duration-500"></div>
                 <span className="relative z-10 group-hover:text-stone-900">Weddings</span>
               </a>
@@ -264,8 +264,7 @@ export default function Home() {
 
       {/* Airbnb Parallax */}
       <section
-               className="relative w-full min-h-[560px] md:h-[620px] flex items-center py-16 md:py-0 bg-scroll md:bg-fixed bg-center bg-cover"
-
+        className="relative w-full min-h-[560px] md:h-[620px] flex items-center py-16 md:py-0 bg-scroll md:bg-fixed bg-center bg-cover"
         style={{ backgroundImage: "url('/airbnb-bg.webp')" }}
       >
         <div className="absolute inset-0 bg-stone-900/50 z-10"></div>
